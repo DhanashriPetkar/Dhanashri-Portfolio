@@ -21,7 +21,7 @@ const Experience = () => {
     {
       role: "Coding Club Mentor",
       company: "Coding Club, DY Patil College of Engineering & Technology",
-      date: "",
+      date: "June 2023 – April 2024",
       description: [
         "Taught C and Python programming languages to second-year Mechanical Engineering students through the college's Coding Club."
       ]
