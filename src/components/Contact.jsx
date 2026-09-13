@@ -1,23 +1,43 @@
 import React, { useState } from 'react';
+import { useForm, ValidationError } from '@formspree/react';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaMapMarkerAlt, FaPhone, FaPaperPlane, FaGithub, FaLinkedin, FaMediumM } from 'react-icons/fa';
 
 const Contact = () => {
+  const [state, handleSubmitForm] = useForm('mnpqkpbn');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: ''
   });
+  const [submitError, setSubmitError] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (submitError) setSubmitError('');
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Note: This form does not send emails. Connect a backend service (e.g., Formspree, EmailJS) to enable it.
-    alert('Thank you for your message! Note: Form submission is not yet connected to an email service. Please reach out directly via email.');
+
+    if (!formData.name.trim()) {
+      setSubmitError('Please enter your name.');
+      return;
+    }
+
+    if (!formData.email.trim()) {
+      setSubmitError('Please enter your email address.');
+      return;
+    }
+
+    if (!formData.message.trim()) {
+      setSubmitError('Please enter a message.');
+      return;
+    }
+
+    setSubmitError('');
+    handleSubmitForm(e);
   };
 
   return (
@@ -162,14 +182,36 @@ const Contact = () => {
                 ></textarea>
               </div>
 
+              {submitError && (
+                <p className="text-sm text-red-400" role="alert">{submitError}</p>
+              )}
+
+              {state.succeeded && (
+                <p className="text-sm text-green-400" role="status">
+                  Message sent successfully! I&apos;ll get back to you soon.
+                </p>
+              )}
+
+              <ValidationError prefix="Name" field="name" errors={state.errors} />
+              <ValidationError prefix="Email" field="email" errors={state.errors} />
+              <ValidationError prefix="Message" field="message" errors={state.errors} />
+
               <button
                 type="submit"
-                className="w-full bg-primary hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+                disabled={state.submitting}
+                className="w-full bg-primary hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Send Message <FaPaperPlane size={16} />
+                {state.submitting ? 'Sending...' : 'Send Message'} <FaPaperPlane size={16} />
               </button>
+
+              {state.submitCount > 0 && !state.succeeded && !submitError && !state.submitting && (
+                <p className="text-sm text-red-400" role="alert">
+                  There was a problem sending your message. Please try again.
+                </p>
+              )}
+
               <p className="text-xs text-gray-600 text-center">
-                This form is a UI placeholder. To enable email delivery, connect a service like Formspree or EmailJS.
+                I&apos;ll get back to you as soon as possible.
               </p>
             </form>
           </motion.div>
