@@ -1,0 +1,5 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Briefcase, Calendar } from 'lucide-react'; // Wait, I changed lucide-react icons in other places. I'll use react-icons here too.
+
+// Wait, I need to correct imports to use react-icons instead of lucide-react. Let me redo this file properly.

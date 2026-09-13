@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme { --color-background: #111110; --color-foreground: #f2f0ea; --color-primary: #c7d19d; --color-secondary: #191918; --color-accent: #c7d19d; }
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #111110; color: #f2f0ea; font-family: Inter, ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  ::selection { background: #c7d19d; color: #111110; }
+  a { text-underline-offset: 4px; }
+}
